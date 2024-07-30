@@ -1,0 +1,57 @@
+@page
+@using MomokoBlog.Permissions
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using MomokoBlog.Web.Pages.Classifications.Classification
+@using MomokoBlog.Localization
+@using MomokoBlog.Web.Menus
+@model IndexModel
+@inject IPageLayout PageLayout
+@inject IHtmlLocalizer<MomokoBlogResource> L
+@inject IAuthorizationService Authorization
+@{
+    PageLayout.Content.Title = L["Classification"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:Classification"].Value);
+    PageLayout.Content.MenuItemName = MomokoBlogMenus.Classification;
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/Classifications/Classification/index.js" />
+}
+@section styles
+{
+    <abp-style src="/Pages/Classifications/Classification/index.css"/>
+}
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["Classification"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-end">
+			    @if (await Authorization.IsGrantedAsync(MomokoBlogPermissions.Classification.Create))
+                {
+                <abp-button id="NewClassificationButton"
+                            text="@L["CreateClassification"].Value"
+                            icon="plus"
+                            button-type="Primary" />
+                }
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-row class="mb-3">
+            <a abp-collapse-id="ClassificationCollapse" class="text-secondary">@L["TableFilter"] </a>
+        </abp-row>
+        <abp-dynamic-form abp-model="ClassificationFilter" id="ClassificationFilter" required-symbols="false" column-size="_3">
+            <abp-collapse-body id="ClassificationCollapse">
+                <abp-form-content />
+            </abp-collapse-body>
+        </abp-dynamic-form>
+        <hr />
+        <abp-table striped-rows="true" id="ClassificationTable" class="nowrap"/>
+    </abp-card-body>
+</abp-card>

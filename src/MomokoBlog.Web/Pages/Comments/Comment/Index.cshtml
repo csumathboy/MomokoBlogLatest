@@ -1,0 +1,57 @@
+@page
+@using MomokoBlog.Permissions
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using MomokoBlog.Web.Pages.Comments.Comment
+@using MomokoBlog.Localization
+@using MomokoBlog.Web.Menus
+@model IndexModel
+@inject IPageLayout PageLayout
+@inject IHtmlLocalizer<MomokoBlogResource> L
+@inject IAuthorizationService Authorization
+@{
+    PageLayout.Content.Title = L["Comment"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:Comment"].Value);
+    PageLayout.Content.MenuItemName = MomokoBlogMenus.Comment;
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/Comments/Comment/index.js" />
+}
+@section styles
+{
+    <abp-style src="/Pages/Comments/Comment/index.css"/>
+}
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["Comment"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-end">
+			    @if (await Authorization.IsGrantedAsync(MomokoBlogPermissions.Comment.Create))
+                {
+                <abp-button id="NewCommentButton"
+                            text="@L["CreateComment"].Value"
+                            icon="plus"
+                            button-type="Primary" />
+                }
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-row class="mb-3">
+            <a abp-collapse-id="CommentCollapse" class="text-secondary">@L["TableFilter"] </a>
+        </abp-row>
+        <abp-dynamic-form abp-model="CommentFilter" id="CommentFilter" required-symbols="false" column-size="_3">
+            <abp-collapse-body id="CommentCollapse">
+                <abp-form-content />
+            </abp-collapse-body>
+        </abp-dynamic-form>
+        <hr />
+        <abp-table striped-rows="true" id="CommentTable" class="nowrap"/>
+    </abp-card-body>
+</abp-card>

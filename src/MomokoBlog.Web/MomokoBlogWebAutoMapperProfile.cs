@@ -1,0 +1,28 @@
+using MomokoBlog.Classifications.Dtos;
+using MomokoBlog.Web.Pages.Classifications.Classification.ViewModels;
+using MomokoBlog.Comments.Dtos;
+using MomokoBlog.Web.Pages.Comments.Comment.ViewModels;
+using MomokoBlog.Tags.Dtos;
+using MomokoBlog.Web.Pages.Tags.Tag.ViewModels;
+using MomokoBlog.Posts.Dtos;
+ 
+using AutoMapper;
+
+namespace MomokoBlog.Web;
+
+public class MomokoBlogWebAutoMapperProfile : Profile
+{
+    public MomokoBlogWebAutoMapperProfile()
+    {
+        //Define your AutoMapper configuration here for the Web project.
+        CreateMap<ClassificationDto, CreateEditClassificationViewModel>();
+        CreateMap<CreateEditClassificationViewModel, CreateUpdateClassificationDto>();
+        CreateMap<CommentDto, EditCommentViewModel>();
+        CreateMap<CreateCommentViewModel, CreateCommentDto>();
+        CreateMap<EditCommentViewModel, UpdateCommentDto>();
+        CreateMap<TagDto, EditTagViewModel>();
+        CreateMap<CreateTagViewModel, CreateTagDto>();
+        CreateMap<EditTagViewModel, UpdateTagDto>();
+        CreateMap<PostDto, UpdatePostDto>();
+    }
+}
