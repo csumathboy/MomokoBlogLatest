@@ -158,5 +158,15 @@ public class MomokoBlogDbContext :
 
             b.HasIndex(x => new { x.PostId, x.TagId });
         });
+
+
+        builder.Entity<Post>(b =>
+        {
+            b.ToTable(MomokoBlogConsts.DbTablePrefix + "Posts", MomokoBlogConsts.DbSchema);
+            b.ConfigureByConvention(); 
+            
+
+            /* Configure more properties here */
+        });
     }
 }

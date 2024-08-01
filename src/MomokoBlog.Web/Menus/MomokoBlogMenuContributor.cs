@@ -34,24 +34,42 @@ public class MomokoBlogMenuContributor : IMenuContributor
                 order: 0
             )
         );
-
+       
         if (MultiTenancyConsts.IsEnabled)
         {
-            administration.SetSubItemOrder(TenantManagementMenuNames.GroupName, 1);
+            administration.SetSubItemOrder(TenantManagementMenuNames.GroupName, 2);
         }
         else
         {
             administration.TryRemoveMenuItem(TenantManagementMenuNames.GroupName);
         }
 
-        administration.SetSubItemOrder(IdentityMenuNames.GroupName, 2);
-        administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 3);
+        administration.SetSubItemOrder(IdentityMenuNames.GroupName, 3);
+        administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 4);
+
+        // blog menu
+        var blogMenu = new ApplicationMenuItem(
+                MomokoBlogMenus.Home,
+                l["Menu:Blog"],
+                "~/",
+                icon: "fas fa-blog",
+                order: 1
+            );
+
+        var isPostGranted = context.IsGrantedAsync(MomokoBlogPermissions.Post.Default);
+
+        if (isPostGranted.Result)
+        {
+            blogMenu.AddItem(
+                new ApplicationMenuItem(MomokoBlogMenus.Post, l["Menu:Post"], "/Posts/Post")
+            );
+        }
 
         var isClassificationGranted = context.IsGrantedAsync(MomokoBlogPermissions.Classification.Default);
 
         if (isClassificationGranted.Result)
         {
-            context.Menu.GetAdministration().AddItem(
+            blogMenu.AddItem(
                 new ApplicationMenuItem(MomokoBlogMenus.Classification, l["Menu:Classification"], "/Classifications/Classification")
             );
         }
@@ -59,7 +77,7 @@ public class MomokoBlogMenuContributor : IMenuContributor
 
         if (isCommentGranted.Result)
         {
-            context.Menu.GetAdministration().AddItem(
+            blogMenu.AddItem(
                 new ApplicationMenuItem(MomokoBlogMenus.Comment, l["Menu:Comment"], "/Comments/Comment")
             );
         }
@@ -67,19 +85,16 @@ public class MomokoBlogMenuContributor : IMenuContributor
 
         if (isTagGranted.Result)
         {
-            context.Menu.GetAdministration().AddItem(
+            blogMenu.AddItem(
                 new ApplicationMenuItem(MomokoBlogMenus.Tag, l["Menu:Tag"], "/Tags/Tag")
             );
         }
-        var isPostGranted = context.IsGrantedAsync(MomokoBlogPermissions.Post.Default);
 
-        if (isPostGranted.Result)
+        if(isClassificationGranted.Result||isCommentGranted.Result||isTagGranted.Result||isPostGranted.Result)
         {
-            context.Menu.GetAdministration().AddItem(
-                new ApplicationMenuItem(MomokoBlogMenus.Post, l["Menu:Post"], "/Posts/Post")
-            );
+            context.Menu.Items.Insert(1, blogMenu);
         }
-
+        
         return Task.CompletedTask;
     }
 }

@@ -33,7 +33,7 @@ $(function () {
         autoWidth: false,
         scrollCollapse: true,
         order: [[0, "asc"]],
-        ajax: abp.libs.datatables.createAjax(service.getList,getFilter),
+        ajax: abp.libs.datatables.createAjax(service.getListByCondition,getFilter),
         columnDefs: [
             {
                 rowAction: {
@@ -72,16 +72,8 @@ $(function () {
                 data: "author"
             },
             {
-                title: l('PostDescription'),
-                data: "description"
-            },
-            {
                 title: l('PostClassId'),
-                data: "classId"
-            },
-            {
-                title: l('PostContextValue'),
-                data: "contextValue"
+                data: "className"
             },
             {
                 title: l('PostPicture'),
@@ -96,8 +88,11 @@ $(function () {
                 data: "isTop"
             },
             {
-                title: l('PostPostTags'),
-                data: "postTags"
+                title: 'PostPostTags',
+                data: "postTags",
+                render: function (data) {
+                    return data.join(", ");
+                }
             },
             {
                 title: l('PostPostsStatus'),

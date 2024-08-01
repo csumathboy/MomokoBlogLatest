@@ -15,6 +15,7 @@ public class CreateCommentViewModel
     public string Description { get; set; }
 
     [Display(Name = "CommentRealName")]
+    [Required]
     public string RealName { get; set; }
 
     [Display(Name = "CommentEmail")]

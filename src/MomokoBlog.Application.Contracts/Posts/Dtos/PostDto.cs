@@ -12,9 +12,7 @@ public class PostDto : FullAuditedEntityDto<Guid>
 
     public string? Description { get; set; }
 
-    public Guid ClassId { get; set; }
-
-    public string ContextValue { get; set; }
+    public string? ClassName { get; set; }
 
     public string? Picture { get; set; }
 
