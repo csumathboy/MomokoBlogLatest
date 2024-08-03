@@ -26,3 +26,5 @@ public class MomokoBlogApplicationContractsModule : AbpModule
         MomokoBlogDtoExtensions.Configure();
     }
 }
+
+

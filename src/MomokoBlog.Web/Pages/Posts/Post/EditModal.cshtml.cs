@@ -3,7 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MomokoBlog.Posts;
 using MomokoBlog.Posts.Dtos;
- 
+using MomokoBlog.Web.Pages.Posts.Post.ViewModels;
+
 namespace MomokoBlog.Web.Pages.Posts.Post;
 
 public class EditModalModel : MomokoBlogPageModel
@@ -13,7 +14,7 @@ public class EditModalModel : MomokoBlogPageModel
     public Guid Id { get; set; }
 
     [BindProperty]
-    public UpdatePostDto ViewModel { get; set; }
+    public EditPostViewModel ViewModel { get; set; }
 
     private readonly IPostAppService _service;
 
@@ -25,12 +26,13 @@ public class EditModalModel : MomokoBlogPageModel
     public virtual async Task OnGetAsync()
     {
         var dto = await _service.GetAsync(Id);
-        ViewModel = ObjectMapper.Map<PostDto, UpdatePostDto>(dto);
+        ViewModel = ObjectMapper.Map<PostDto, EditPostViewModel>(dto);
     }
 
     public virtual async Task<IActionResult> OnPostAsync()
     {
-        await _service.UpdateAsync(Id, ViewModel);
+        var dto = ObjectMapper.Map<EditPostViewModel, UpdatePostDto>(ViewModel);
+        await _service.UpdateAsync(Id, dto);
         return NoContent();
     }
 }

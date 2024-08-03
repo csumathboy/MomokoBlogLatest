@@ -4,7 +4,7 @@ using Xunit;
 
 namespace MomokoBlog.Posts;
 
-public class PostDomainTests : MomokoBlogDomainTestBase<MomokoBlogDomainModule>
+public class PostDomainTests : MomokoBlogDomainTestBase
 {
     public PostDomainTests()
     {

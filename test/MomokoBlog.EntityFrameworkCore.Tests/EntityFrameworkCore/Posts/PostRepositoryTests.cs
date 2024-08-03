@@ -8,11 +8,11 @@ namespace MomokoBlog.EntityFrameworkCore.Posts;
 
 public class PostRepositoryTests : MomokoBlogEntityFrameworkCoreTestBase
 {
-    private readonly IPostRepository _postRepository;
+    private readonly IRepository<Post, Guid> _postRepository;
 
     public PostRepositoryTests()
     {
-        _postRepository = GetRequiredService<IPostRepository>();
+        _postRepository = GetRequiredService<IRepository<Post, Guid>>();
     }
 
     /*

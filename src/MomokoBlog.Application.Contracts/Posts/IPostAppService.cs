@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
+using MomokoBlog.Classifications.Dtos;
+using MomokoBlog.Tags.Dtos;
 
 namespace MomokoBlog.Posts;
 
@@ -20,6 +22,7 @@ public interface IPostAppService :
         UpdatePostDto>
 {
     Task<PagedResultDto<PostDto>> GetListByConditionAsync(GetPostListDto input);
+    Task<ListResultDto<ClassificationDto>> GetClassificationAsync();
+    Task<ListResultDto<TagDto>> GetTagAsync();
 
-    
 }
