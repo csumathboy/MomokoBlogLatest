@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
@@ -67,7 +68,7 @@ public class CreateModalModel : MomokoBlogPageModel
 
         var dto = ObjectMapper.Map<CreatePostViewModel, CreatePostDto>(ViewModel);
         ViewModel.Name = GuidGenerator.Create().ToString() + "_" + ViewModel.Name;
-        dto.Picture = "uploadfiles//" + ViewModel.Name;
+        dto.Picture = "/uploadfiles//" + ViewModel.Name;
 
         using (var memoryStream = new MemoryStream())
         {
@@ -92,4 +93,11 @@ public class CreateModalModel : MomokoBlogPageModel
         await _service.CreateAsync(dto);
         return NoContent();
     }
+
+
+ 
 }
+
+
+ 
+

@@ -21,7 +21,7 @@ public class CreatePostDto
 
     public bool IsTop { get; set; }
 
-    public string[] PostTagNames { get; set; } = default!;
+    public string[]? PostTagNames { get; set; }
 
-    public PostStatus PostsStatus { get; set; }
+    public PostStatus PostsStatus { get; set; } = PostStatus.Pulish;
 }

@@ -7,6 +7,7 @@ using MomokoBlog.Web.Pages.Tags.Tag.ViewModels;
 using MomokoBlog.Posts.Dtos;
 using MomokoBlog.Web.Pages.Posts.Post.ViewModels;
 using AutoMapper;
+using MomokoBlog.Web.Models;
 
 namespace MomokoBlog.Web;
 
@@ -27,5 +28,6 @@ public class MomokoBlogWebAutoMapperProfile : Profile
         CreateMap<PostDto, EditPostViewModel>();
         CreateMap<CreatePostViewModel, CreatePostDto>();
         CreateMap<EditPostViewModel, UpdatePostDto>();
+        CreateMap<TagDto, TagViewModel>();
     }
 }

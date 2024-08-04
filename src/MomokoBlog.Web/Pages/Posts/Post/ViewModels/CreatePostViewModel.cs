@@ -9,6 +9,7 @@ namespace MomokoBlog.Web.Pages.Posts.Post.ViewModels;
 
 public class CreatePostViewModel
 {
+    [Required]
     [Display(Name = "PostTitle")]
     public string Title { get; set; }
 
@@ -16,15 +17,14 @@ public class CreatePostViewModel
     public string Author { get; set; }
 
     [Display(Name = "PostDescription")]
-    [TextArea(Rows = 4)]
+    [TextArea(Rows = 3)]
     public string? Description { get; set; }
 
     [Display(Name = "PostClassId")]
     public Guid ClassId { get; set; }
 
     [Display(Name = "PostContextValue")]
-    [TextArea(Rows = 10)]
-    public string ContextValue { get; set; }
+    public string ContextValue { get; set; } = string.Empty;
 
     [Display(Name = "PostPicture")]
     public string? Picture { get; set; }
@@ -40,13 +40,12 @@ public class CreatePostViewModel
     public string[]? PostTagNames { get; set; }
 
     [Display(Name = "PostPostsStatus")]
-    public PostStatus PostsStatus { get; set; }
+    public PostStatus PostsStatus { get; set; } = PostStatus.Pulish;
 
-    [Required]
+
     [Display(Name = "File")]
     public IFormFile File { get; set; }
 
-    [Required]
     [Display(Name = "Filename")]
     public string Name { get; set; }
 }

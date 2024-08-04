@@ -39,6 +39,8 @@ using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.UI;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
+using Autofac.Core;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MomokoBlog.Web;
 
@@ -102,7 +104,6 @@ public class MomokoBlogWebModule : AbpModule
     {
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
-
         ConfigureAuthentication(context);
         ConfigureUrls(configuration);
         ConfigureBundles();
@@ -111,6 +112,7 @@ public class MomokoBlogWebModule : AbpModule
         ConfigureNavigationServices();
         ConfigureAutoApiControllers();
         ConfigureSwaggerServices(context.Services);
+       
     }
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)

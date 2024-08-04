@@ -1,4 +1,4 @@
-@page
+﻿@page
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal;
 @using MomokoBlog.Localization
@@ -7,8 +7,7 @@
 @{
     Layout = null;
 }
-
-<form method="post" id="ViewModel" asp-page="/Posts/CreateModal">
+<form data-ajaxform="true" id="ViewModel" action="/Posts/Post/CreateModal" method="post"  >
     <abp-modal>
         <abp-modal-header title="@L["CreatePost"].Value"></abp-modal-header>
         <abp-modal-body>
@@ -25,10 +24,11 @@
 
                         <abp-input asp-for="ViewModel.File"></abp-input>
 
-
+                      
                         <abp-input asp-for="ViewModel.ContextValue" size="Large" label="@L["PostContextValue"].Value" />
-
+                        <abp-input asp-for="ViewModel.Sort" label="@L["PostSort"].Value" />
                         <abp-radio asp-for="ViewModel.IsTop" asp-items="@Model.YesNoList" label="@L["PostIsTop"].Value" inline="true" />
+ 
                     </div>
                 </abp-tab>
                 <abp-tab title="Tags">
@@ -45,4 +45,21 @@
         </abp-modal-body>
         <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
     </abp-modal>
+ 
+    <link rel="stylesheet" href="/assets/vendor/ckeditor5/ckeditor5.css">
+    
+    <script type="importmap">
+
+        {
+            "imports": {
+                "ckeditor5": "/assets/vendor/ckeditor5/ckeditor5.js",
+                "ckeditor5/": "/assets/vendor/ckeditor5/"
+            }
+        }
+    </script>
+    <script type="module" src="/assets/vendor/ckeditor5/ckeditor5.js"></script>
+    <script type="module" src="/assets/vendor/ckeditor5.js"></script>
+       <style>
+        .modal-dialog{max-width:1500px;}
+       </style>
 </form>
