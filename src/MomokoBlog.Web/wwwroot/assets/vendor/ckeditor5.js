@@ -274,5 +274,16 @@ const editorConfig = {
 	},
 	translations: [translations]
 };
+var myEditor5;
+ClassicEditor.create(document.querySelector('#ViewModel_ContextValue'), editorConfig)
+	.then(editor => {
+		myEditor5 = editor;
+	})
+	.catch(error => {
+		console.error(error);
+	});
 
-ClassicEditor.create(document.querySelector('#ViewModel_ContextValue'), editorConfig);
+document.querySelector('#submit').addEventListener('click', () => {
+	const editorData = myEditor5.getData();
+	$("#ViewModel_ContextValue").val(editorData);
+});

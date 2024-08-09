@@ -89,7 +89,7 @@ $(function () {
             },
             {
                 title: 'PostPostTags',
-                data: "postTags",
+                data: "postTagNames",
                 render: function (data) {
                     return data.join(", ");
                 }

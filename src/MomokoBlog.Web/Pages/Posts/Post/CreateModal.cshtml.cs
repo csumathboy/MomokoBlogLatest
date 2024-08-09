@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MomokoBlog.BlobFile;
@@ -67,8 +68,8 @@ public class CreateModalModel : MomokoBlogPageModel
     {
 
         var dto = ObjectMapper.Map<CreatePostViewModel, CreatePostDto>(ViewModel);
-        ViewModel.Name = GuidGenerator.Create().ToString() + "_" + ViewModel.Name;
-        dto.Picture = "/uploadfiles//" + ViewModel.Name;
+        var fileName = GuidGenerator.Create().ToString() + "_" + ViewModel.File.FileName;
+        dto.Picture = "/uploadfiles/host/blob-file-container/" + fileName;
 
         using (var memoryStream = new MemoryStream())
         {
@@ -77,7 +78,7 @@ public class CreateModalModel : MomokoBlogPageModel
             await _fileAppService.SaveBlobAsync(
                 new SaveBlobInputDto
                 {
-                    Name = ViewModel.Name,
+                    Name = fileName,
                     Content = memoryStream.ToArray()
                 }
             );
@@ -91,6 +92,7 @@ public class CreateModalModel : MomokoBlogPageModel
         }
 
         await _service.CreateAsync(dto);
+  
         return NoContent();
     }
 

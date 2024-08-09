@@ -24,6 +24,7 @@ public class CreatePostViewModel
     public Guid ClassId { get; set; }
 
     [Display(Name = "PostContextValue")]
+    [TextArea(Rows = 3)]
     public string ContextValue { get; set; } = string.Empty;
 
     [Display(Name = "PostPicture")]
@@ -46,6 +47,5 @@ public class CreatePostViewModel
     [Display(Name = "File")]
     public IFormFile File { get; set; }
 
-    [Display(Name = "Filename")]
-    public string Name { get; set; }
+  
 }

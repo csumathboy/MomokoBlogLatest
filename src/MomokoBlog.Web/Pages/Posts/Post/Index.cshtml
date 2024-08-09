@@ -34,10 +34,11 @@
             <abp-column size-md="_6" class="text-end">
 			    @if (await Authorization.IsGrantedAsync(MomokoBlogPermissions.Post.Create))
                 {
-                <abp-button id="NewPostButton"
+                    <abp-button onclick="javascript:window.location.href='/Posts/Post/CreateModal'"
                             text="@L["CreatePost"].Value"
                             icon="plus"
                             button-type="Primary" />
+
                 }
             </abp-column>
         </abp-row>
