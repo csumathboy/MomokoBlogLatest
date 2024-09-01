@@ -8,7 +8,7 @@ public class EditPostViewModel
 {
     [Display(Name = "PostTitle")]
     public string Title { get; set; }
-
+      
     [Display(Name = "PostAuthor")]
     public string Author { get; set; }
 

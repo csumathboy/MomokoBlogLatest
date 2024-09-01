@@ -27,7 +27,7 @@ public class CreatePostViewModel
     [TextArea(Rows = 3)]
     public string ContextValue { get; set; } = string.Empty;
 
-    [Display(Name = "PostPicture")]
+    [Display(Name = "PostPicture")]  
     public string? Picture { get; set; }
 
     [Display(Name = "PostSort")]

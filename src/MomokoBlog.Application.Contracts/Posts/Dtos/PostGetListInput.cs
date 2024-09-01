@@ -6,7 +6,7 @@ namespace MomokoBlog.Posts.Dtos;
 
 [Serializable]
 public class PostGetListInput : PagedAndSortedResultRequestDto
-{
+{ 
     public string? Title { get; set; }
 
     public string? Author { get; set; }

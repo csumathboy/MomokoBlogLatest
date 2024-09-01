@@ -7,6 +7,6 @@ namespace MomokoBlog.Posts
 {
     public class GetPostListDto : PagedAndSortedResultRequestDto
     {
-        public string? Filter { get; set; }
+        public string? Filter { get; set; } 
     }
 }

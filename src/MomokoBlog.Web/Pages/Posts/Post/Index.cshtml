@@ -10,7 +10,7 @@
 @inject IPageLayout PageLayout
 @inject IHtmlLocalizer<MomokoBlogResource> L
 @inject IAuthorizationService Authorization
-@{
+@{ 
     PageLayout.Content.Title = L["Post"].Value;
     PageLayout.Content.BreadCrumb.Add(L["Menu:Post"].Value);
     PageLayout.Content.MenuItemName = MomokoBlogMenus.Post;
