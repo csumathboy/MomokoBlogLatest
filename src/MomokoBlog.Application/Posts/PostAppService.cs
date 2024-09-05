@@ -70,7 +70,12 @@ public class PostAppService : CrudAppService<Post, PostDto, Guid, PostGetListInp
 
         return ObjectMapper.Map<PostWithDetails, PostDto>(post);
     }
+    public  async Task<PostDetailsDto> GetPostWithDetails(Guid id)
+    {
+        var post = await _postRepository.GetAsync(id);
 
+        return ObjectMapper.Map<PostWithDetails, PostDetailsDto>(post);
+    }
     public override async Task<PostDto> CreateAsync(CreatePostDto input)
     {
         var result= await _postManager.CreateAsync(

@@ -43,7 +43,7 @@ $(function () {
                                 text: l('Edit'),
                                 visible: abp.auth.isGranted('MomokoBlog.Post.Update'),
                                 action: function (data) {
-                                    editModal.open({ id: data.record.id });
+                                    window.location.href = '/Posts/Post/EditModal?id=' + data.record.id;        
                                 }
                             },
                             {

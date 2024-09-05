@@ -27,6 +27,7 @@ public class MomokoBlogApplicationAutoMapperProfile : Profile
         CreateMap<UpdateTagDto, Tag>(MemberList.Source);
         CreateMap<Post, PostDto>();
         CreateMap<PostWithDetails, PostDto>();
+        CreateMap<PostWithDetails, PostDetailsDto>();
         CreateMap<CreatePostDto, Post>(MemberList.Source);
         CreateMap<UpdatePostDto, Post>(MemberList.Source);
     }

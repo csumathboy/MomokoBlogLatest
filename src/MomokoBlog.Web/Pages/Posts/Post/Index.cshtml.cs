@@ -9,7 +9,7 @@ namespace MomokoBlog.Web.Pages.Posts.Post;
 public class IndexModel : MomokoBlogPageModel
 {
     public PostFilterInput PostFilter { get; set; }
-    
+     
     public virtual async Task OnGetAsync()
     {
         await Task.CompletedTask;

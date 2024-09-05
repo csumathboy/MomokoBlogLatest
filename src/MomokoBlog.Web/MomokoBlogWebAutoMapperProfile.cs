@@ -26,6 +26,7 @@ public class MomokoBlogWebAutoMapperProfile : Profile
         CreateMap<EditTagViewModel, UpdateTagDto>();
         CreateMap<PostDto, UpdatePostDto>();
         CreateMap<PostDto, EditPostViewModel>();
+        CreateMap<PostDetailsDto, EditPostViewModel>();
         CreateMap<CreatePostViewModel, CreatePostDto>();
         CreateMap<EditPostViewModel, UpdatePostDto>();
         CreateMap<TagDto, TagViewModel>();

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using MomokoBlog.Posts;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -21,6 +22,9 @@ public class EditPostViewModel
     [Display(Name = "PostContextValue")]
     public string ContextValue { get; set; }
 
+    [Display(Name = "PostTempContextValue")]
+    public string TempContextValue { get; set; }
+
     [Display(Name = "PostPicture")]
     public string? Picture { get; set; }
 
@@ -36,4 +40,8 @@ public class EditPostViewModel
 
     [Display(Name = "PostPostsStatus")]
     public PostStatus PostsStatus { get; set; }
+
+
+    [Display(Name = "File")]
+    public IFormFile File { get; set; }
 }

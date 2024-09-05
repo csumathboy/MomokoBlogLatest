@@ -4,16 +4,73 @@
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal;
 @inject IHtmlLocalizer<MomokoBlogResource> L
 @model MomokoBlog.Web.Pages.Posts.Post.EditModalModel
-@{
-    Layout = null;
-}
-<abp-dynamic-form abp-model="ViewModel" data-ajaxForm="true" asp-page="EditModal">
-    <abp-modal>
-        <abp-modal-header title="@L["EditPost"].Value"></abp-modal-header>
-        <abp-modal-body>
-            <abp-input asp-for="Id" />
-            <abp-form-content />
-        </abp-modal-body>
-        <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
-    </abp-modal>
-</abp-dynamic-form>
+ 
+<form data-ajaxform="false" id="EditModel" action="/Posts/Post/EditModal" method="post">
+    <abp-card>
+        <abp-card-header title="@L["EditPost"].Value"></abp-card-header>
+        <abp-card-body>
+            <abp-tabs name="create-Post-modal-tabs">
+                <abp-tab title="Post Information" class="mt-3">
+                    <div id="post-information-wrapper" class="mt-3">
+                        <abp-input asp-for="EditModel.Title" label="@L["PostTitle"].Value" />
+                        <abp-input asp-for="EditModel.Author" label="@L["PostAuthor"].Value" />
+                        <abp-select asp-for="EditModel.ClassId" asp-items="@Model.ClassificationList" label="@L["PostClassId"].Value">
+                            <option value="" disabled="disabled">@L["PostChooseClassification"].Value</option>
+                        </abp-select>
+                        <abp-input asp-for="EditModel.Description" size="Large" label="@L["PostDescription"].Value" />
+                        <abp-input asp-for="EditModel.File"></abp-input>
+                        <abp-input asp-for="EditModel.ContextValue" size="Large" label="@L["PostContextValue"].Value" />
+                        <abp-input asp-for="EditModel.Sort" label="@L["PostSort"].Value" />
+                        <abp-radio asp-for="EditModel.IsTop" asp-items="@Model.YesNoList" label="@L["PostIsTop"].Value" inline="true" />
+
+                    </div>
+                </abp-tab>
+                <abp-tab title="Tags">
+                    <div id="tag-list-wrapper" class="mt-3">
+                        @for (var i = 0; i < Model.Tags.Count; i++)
+                        {
+                            var category = Model.Tags[i];
+                            <abp-input abp-id-name="@Model.Tags[i].IsSelected" asp-for="@category.IsSelected" label="@category.Name" />
+                            <input abp-id-name="@Model.Tags[i].Name" asp-for="@category.Name" />
+                        }
+                    </div>
+                </abp-tab>
+            </abp-tabs>
+        </abp-card-body>
+        <div class="modal-footer">
+            <button class="btn btn-outline-primary" onclick="javascript:window.location.href='/Posts/Post'" type="button">返回</button>
+            <button class="btn btn-primary" data-busy-text="保存中..." id="submit" type="submit"><i class="fa fa-check"></i> <span>保存</span></button>
+        </div>
+    </abp-card>
+
+    <link rel="stylesheet" href="/assets/vendor/ckeditor5/ckeditor5.css">
+    <style>
+        /* increase height of ckeditor*/
+        .ck-editor__editable_inline {
+            min-height: 500px;
+        }
+    </style>
+    <script type="importmap">
+
+        {
+            "imports": {
+                "ckeditor5": "/assets/vendor/ckeditor5/ckeditor5.js",
+                "ckeditor5/": "/assets/vendor/ckeditor5/"
+            }
+        }
+    </script>
+    <script type="module" src="/assets/vendor/ckeditor5/ckeditor5.js"></script>
+    <script type="module" src="/assets/vendor/ckeditor5configedit.js"></script>
+
+    <script type="text/javascript">
+
+    </script>
+
+    <style>
+        .modal-dialog {
+            max-width: 1500px;
+        }
+    </style>
+
+
+</form>

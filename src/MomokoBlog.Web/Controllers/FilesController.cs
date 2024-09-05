@@ -5,12 +5,15 @@ using System.Threading.Tasks;
 using System;
 using MomokoBlog.Web.Models;
 using MomokoBlog.BlobFile;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MomokoBlog.Web.Controllers
 {
+    [AutoValidateAntiforgeryToken]
     public class FilesController : Controller
     {
         private readonly IFileAppService _fileAppService;
+
 
         public FilesController(IFileAppService fileAppService)
         {
@@ -19,12 +22,14 @@ namespace MomokoBlog.Web.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return NoContent();
         }
+
         [HttpPost]
-        public async Task<ActionResult> UploadImage([FromForm] IFormFile upload)
+        [IgnoreAntiforgeryToken]
+        public async Task<ActionResult> UploadImage(IFormFile upload)
         {
-            if (upload.Length <= 0) return new JsonResult("");
+            if (upload.Length <= 0) return new JsonResult("{\r\n    \"error\": {\r\n        \"message\": \"The image upload failed.\"\r\n    }\r\n}");
 
             //your custom code logic here
 
@@ -40,7 +45,7 @@ namespace MomokoBlog.Web.Controllers
 
 
             var filePath = "/uploadfiles/" + fileName;
-
+            var rtnFilePath= "/uploadfiles/host/blob-file-container/" + fileName;
             using (var memoryStream = new MemoryStream())
             {
                 await upload.CopyToAsync(memoryStream);
@@ -55,7 +60,7 @@ namespace MomokoBlog.Web.Controllers
             }
         
 
-            var url = filePath;
+            var url = rtnFilePath;
 
             var success = new UploadSuccess
             {

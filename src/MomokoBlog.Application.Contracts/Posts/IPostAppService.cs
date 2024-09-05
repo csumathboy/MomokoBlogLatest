@@ -24,5 +24,5 @@ public interface IPostAppService :
     Task<PagedResultDto<PostDto>> GetListByConditionAsync(GetPostListDto input);
     Task<ListResultDto<ClassificationDto>> GetClassificationAsync();
     Task<ListResultDto<TagDto>> GetTagAsync();
-
+    Task<PostDetailsDto> GetPostWithDetails(Guid id);
 }
