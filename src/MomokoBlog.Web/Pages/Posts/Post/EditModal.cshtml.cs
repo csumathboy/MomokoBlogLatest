@@ -15,10 +15,14 @@ using MomokoBlog.Web.Pages.Posts.Post.ViewModels;
 
 namespace MomokoBlog.Web.Pages.Posts.Post;
 
+[IgnoreAntiforgeryToken(Order = 1001)]
 public class EditModalModel : MomokoBlogPageModel
 {
     [BindProperty]
     public EditPostViewModel EditModel { get; set; }
+
+    [BindProperty]
+    public string ImageViewer { get; set; }
 
     [BindProperty]
     public List<TagViewModel> Tags { get; set; }
@@ -35,7 +39,8 @@ public class EditModalModel : MomokoBlogPageModel
     [BindProperty(SupportsGet = true)]
     public Guid Id { get; set; }
 
- 
+
+
 
     public EditModalModel(IPostAppService service, IFileAppService fileAppService)
     {
@@ -45,14 +50,27 @@ public class EditModalModel : MomokoBlogPageModel
 
     public List<SelectListItem> YesNoList { get; set; } = new List<SelectListItem>
         {
-            new SelectListItem { Value = "0", Text = "Yes"},
-            new SelectListItem { Value = "1", Text = "No"},
+            new SelectListItem { Value = "True",Text = "是"},
+            new SelectListItem { Value = "False", Text = "否"},
         };
+    public List<SelectListItem> PostStatusList { get; set; } = new List<SelectListItem>
+        {
+            new SelectListItem { Value = "0", Text = "未决定"},
+            new SelectListItem { Value = "1", Text = "已发布"},
+            new SelectListItem { Value = "2", Text = "待发布"},
+            new SelectListItem { Value = "3", Text = "已删除"}
+        };
+
     public async Task OnGetAsync()
     {
         var dto = await _service.GetPostWithDetails(Id);
         EditModel = ObjectMapper.Map<PostDetailsDto, EditPostViewModel>(dto);
+        EditModel = ObjectMapper.Map<PostDetailsDto, EditPostViewModel>(dto);
         EditModel.TempContextValue = EditModel.ContextValue;
+        if (!string.IsNullOrEmpty(EditModel.Picture))
+        {
+            ImageViewer = "<img src='"+EditModel.Picture+"' width='300px' height='200px' />";
+        }
         //Get all classification and fill the select list
         var classLookup = await _service.GetClassificationAsync();
         ClassificationList = classLookup.Items
@@ -62,27 +80,38 @@ public class EditModalModel : MomokoBlogPageModel
         //Get all categories
         var tagLookupDto = await _service.GetTagAsync();
         Tags = ObjectMapper.Map<List<TagDto>, List<TagViewModel>>(tagLookupDto.Items.ToList());
+        if (EditModel.PostTagNames != null && EditModel.PostTagNames.Any())
+        {
+            Tags
+                .Where(x => EditModel.PostTagNames.Contains(x.Name))
+                .ToList()
+                .ForEach(x => x.IsSelected = true);
+        }
     }
 
-
+    
     public virtual async Task<IActionResult> OnPostAsync()
     {
 
         var dto = ObjectMapper.Map<EditPostViewModel, UpdatePostDto>(EditModel);
-        var fileName = GuidGenerator.Create().ToString() + "_" + EditModel.File.FileName;
-        dto.Picture = "/uploadfiles/host/blob-file-container/" + fileName;
-
-        using (var memoryStream = new MemoryStream())
+        
+        if (EditModel.File != null)
         {
-            await EditModel.File.CopyToAsync(memoryStream);
+            var fileName = GuidGenerator.Create().ToString() + "_" + EditModel.File.FileName;
+            dto.Picture = "/uploadfiles/host/blob-file-container/" + fileName;
 
-            await _fileAppService.SaveBlobAsync(
-                new SaveBlobInputDto
-                {
-                    Name = fileName,
-                    Content = memoryStream.ToArray()
-                }
-            );
+            using (var memoryStream = new MemoryStream())
+            {
+                await EditModel.File.CopyToAsync(memoryStream);
+
+                await _fileAppService.SaveBlobAsync(
+                    new SaveBlobInputDto
+                    {
+                        Name = fileName,
+                        Content = memoryStream.ToArray()
+                    }
+                );
+            }
         }
 
         var selectedTags = Tags.Where(x => x.IsSelected).ToList();
@@ -93,8 +122,8 @@ public class EditModalModel : MomokoBlogPageModel
         }
 
         await _service.UpdateAsync(Id, dto);
-   
-        return NoContent();
+
+        return Redirect("/Posts/Post");
     }
 
 }

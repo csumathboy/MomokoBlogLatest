@@ -75,10 +75,7 @@ $(function () {
                 title: l('PostClassId'),
                 data: "className"
             },
-            {
-                title: l('PostPicture'),
-                data: "picture"
-            },
+           
             {
                 title: l('PostSort'),
                 data: "sort"

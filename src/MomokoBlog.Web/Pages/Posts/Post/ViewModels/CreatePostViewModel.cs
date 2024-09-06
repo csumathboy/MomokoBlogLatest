@@ -45,7 +45,7 @@ public class CreatePostViewModel
 
 
     [Display(Name = "File")]
-    public IFormFile File { get; set; }
+    public IFormFile? File { get; set; }
 
   
 }

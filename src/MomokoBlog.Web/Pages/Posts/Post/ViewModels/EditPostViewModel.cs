@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MomokoBlog.Web.Pages.Posts.Post.ViewModels;
 
+
 public class EditPostViewModel
 {
     [Display(Name = "PostTitle")]
@@ -43,5 +44,5 @@ public class EditPostViewModel
 
 
     [Display(Name = "File")]
-    public IFormFile File { get; set; }
+    public IFormFile? File { get; set; }
 }

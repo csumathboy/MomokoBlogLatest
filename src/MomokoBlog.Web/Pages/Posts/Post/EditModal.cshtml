@@ -5,9 +5,10 @@
 @inject IHtmlLocalizer<MomokoBlogResource> L
 @model MomokoBlog.Web.Pages.Posts.Post.EditModalModel
  
-<form data-ajaxform="false" id="EditModel" action="/Posts/Post/EditModal" method="post">
+<form data-ajaxform="false" enctype="multipart/form-data" id="EditModel" action="/Posts/Post/EditModal" method="post">
     <abp-card>
         <abp-card-header title="@L["EditPost"].Value"></abp-card-header>
+        <abp-input asp-for="Id" />
         <abp-card-body>
             <abp-tabs name="create-Post-modal-tabs">
                 <abp-tab title="Post Information" class="mt-3">
@@ -19,10 +20,15 @@
                         </abp-select>
                         <abp-input asp-for="EditModel.Description" size="Large" label="@L["PostDescription"].Value" />
                         <abp-input asp-for="EditModel.File"></abp-input>
+                        <div>
+                            @Html.Raw(Model.ImageViewer)
+                        </div>
                         <abp-input asp-for="EditModel.ContextValue" size="Large" label="@L["PostContextValue"].Value" />
                         <abp-input asp-for="EditModel.Sort" label="@L["PostSort"].Value" />
-                        <abp-radio asp-for="EditModel.IsTop" asp-items="@Model.YesNoList" label="@L["PostIsTop"].Value" inline="true" />
-
+                        <abp-select asp-for="EditModel.PostsStatus" asp-items="@Model.PostStatusList" label="@L["PostsStatus"].Value">
+                        </abp-select>
+                        <abp-select asp-for="EditModel.IsTop" asp-items="@Model.YesNoList" label="@L["PostIsTop"].Value">
+                        </abp-select>
                     </div>
                 </abp-tab>
                 <abp-tab title="Tags">
@@ -38,8 +44,8 @@
             </abp-tabs>
         </abp-card-body>
         <div class="modal-footer">
-            <button class="btn btn-outline-primary" onclick="javascript:window.location.href='/Posts/Post'" type="button">∑µªÿ</button>
-            <button class="btn btn-primary" data-busy-text="±£¥Ê÷–..." id="submit" type="submit"><i class="fa fa-check"></i> <span>±£¥Ê</span></button>
+            <button class="btn btn-outline-primary" onclick="javascript:window.location.href='/Posts/Post'" type="button">ËøîÂõû</button>
+            <button class="btn btn-primary" data-busy-text="‰øùÂ≠ò‰∏≠..." id="submit" type="submit"><i class="fa fa-check"></i> <span>‰øùÂ≠ò</span></button>
         </div>
     </abp-card>
 
@@ -63,7 +69,9 @@
     <script type="module" src="/assets/vendor/ckeditor5configedit.js"></script>
 
     <script type="text/javascript">
-
+        window.onload = function () {
+           
+        }
     </script>
 
     <style>

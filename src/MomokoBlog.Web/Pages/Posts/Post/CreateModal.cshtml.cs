@@ -18,7 +18,7 @@ using MomokoBlog.Web.Pages.Posts.Post.ViewModels;
 namespace MomokoBlog.Web.Pages.Posts.Post;
 
 
-
+[IgnoreAntiforgeryToken(Order = 1001)]
 public class CreateModalModel : MomokoBlogPageModel
 {
     [BindProperty]
@@ -46,9 +46,19 @@ public class CreateModalModel : MomokoBlogPageModel
 
     public List<SelectListItem> YesNoList { get; set; } = new List<SelectListItem>
         {
-            new SelectListItem { Value = "0", Text = "Yes"},
-            new SelectListItem { Value = "1", Text = "No"},
+            new SelectListItem { Value = "1", Text = "是"},
+            new SelectListItem { Value = "0", Text = "否"},
         };
+    public List<SelectListItem> PostStatusList { get; set; } = new List<SelectListItem>
+        {
+            new SelectListItem { Value = "0", Text = "未决定"},
+            new SelectListItem { Value = "1", Text = "已发布"},
+            new SelectListItem { Value = "2", Text = "待发布"},
+            new SelectListItem { Value = "3", Text = "已删除"}
+        };
+
+
+
     public async Task OnGetAsync()
     {
 
@@ -68,21 +78,26 @@ public class CreateModalModel : MomokoBlogPageModel
     {
 
         var dto = ObjectMapper.Map<CreatePostViewModel, CreatePostDto>(ViewModel);
-        var fileName = GuidGenerator.Create().ToString() + "_" + ViewModel.File.FileName;
-        dto.Picture = "/uploadfiles/host/blob-file-container/" + fileName;
 
-        using (var memoryStream = new MemoryStream())
+        if (ViewModel.File != null)
         {
-            await ViewModel.File.CopyToAsync(memoryStream);
+            var fileName = GuidGenerator.Create().ToString() + "_" + ViewModel.File.FileName;
+            dto.Picture = "/uploadfiles/host/blob-file-container/" + fileName;
 
-            await _fileAppService.SaveBlobAsync(
-                new SaveBlobInputDto
-                {
-                    Name = fileName,
-                    Content = memoryStream.ToArray()
-                }
-            );
+            using (var memoryStream = new MemoryStream())
+            {
+                await ViewModel.File.CopyToAsync(memoryStream);
+
+                await _fileAppService.SaveBlobAsync(
+                    new SaveBlobInputDto
+                    {
+                        Name = fileName,
+                        Content = memoryStream.ToArray()
+                    }
+                );
+            }
         }
+
 
         var selectedTags = Tags.Where(x => x.IsSelected).ToList();
         if (selectedTags.Any())
@@ -92,14 +107,14 @@ public class CreateModalModel : MomokoBlogPageModel
         }
 
         await _service.CreateAsync(dto);
-  
-        return NoContent();
+
+        return Redirect("/Posts/Post");
     }
 
 
- 
+
 }
 
 
- 
+
 

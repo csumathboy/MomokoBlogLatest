@@ -70,7 +70,10 @@ public class Post : FullAuditedAggregateRoot<Guid>
 
     public void SetPicture(string picture)
     {
-        Picture = Check.Length(picture, nameof(picture), PostConsts.MaxImageUrlLength);
+        if(!string.IsNullOrEmpty(picture))
+        {
+            Picture = Check.Length(picture, nameof(picture), PostConsts.MaxImageUrlLength);
+        }
     }
 
     public void AddPostTag(Guid tagId)
@@ -111,7 +114,7 @@ public class Post : FullAuditedAggregateRoot<Guid>
 
     private bool IsInPostTag(Guid tagId)
     {
-        return PostTags.Any(x => x.PostId == tagId);
+        return PostTags.Any(x => x.TagId == tagId);
     }
 
     public Post ClearImagePath()

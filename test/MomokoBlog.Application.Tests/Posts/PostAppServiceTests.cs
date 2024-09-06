@@ -4,7 +4,7 @@ using Xunit;
 
 namespace MomokoBlog.Posts;
 
-public class PostAppServiceTests : MomokoBlogApplicationTestBase
+public class PostAppServiceTests : MomokoBlogApplicationTestBase<MomokoBlogDomainTestModule>
 {
     private readonly IPostAppService _postAppService;
 
