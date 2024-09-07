@@ -29,15 +29,15 @@ public class CommentFilterInput
     [Display(Name = "CommentDescription")]
     public string? Description { get; set; }
 
-    [FormControlSize(AbpFormControlSize.Small)]
-    [Display(Name = "CommentRealName")]
-    public string? RealName { get; set; }
+    //[FormControlSize(AbpFormControlSize.Small)]
+    //[Display(Name = "CommentRealName")]
+    //public string? RealName { get; set; }
 
-    [FormControlSize(AbpFormControlSize.Small)]
-    [Display(Name = "CommentEmail")]
-    public string? Email { get; set; }
+    //[FormControlSize(AbpFormControlSize.Small)]
+    //[Display(Name = "CommentEmail")]
+    //public string? Email { get; set; }
 
-    [FormControlSize(AbpFormControlSize.Small)]
-    [Display(Name = "CommentPhoneNumber")]
-    public string? PhoneNumber { get; set; }
+    //[FormControlSize(AbpFormControlSize.Small)]
+    //[Display(Name = "CommentPhoneNumber")]
+    //public string? PhoneNumber { get; set; }
 }

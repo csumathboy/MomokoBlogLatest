@@ -45,7 +45,7 @@ public class Post : FullAuditedAggregateRoot<Guid>
         SetTitle(title);
         ClassId = classId;
         SetAuthor( author);
-        SetDescription( description);
+        SetDescription(description);
         ContextValue = contextValue;
         SetPicture( picture);
         Sort = sort;

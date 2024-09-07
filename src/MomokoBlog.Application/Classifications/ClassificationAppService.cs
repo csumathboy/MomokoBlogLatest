@@ -29,7 +29,7 @@ public class ClassificationAppService : CrudAppService<Classification, Classific
         // TODO: AbpHelper generated
         return (await base.CreateFilteredQueryAsync(input))
             .WhereIf(!input.Name.IsNullOrWhiteSpace(), x => x.Name.Contains(input.Name))
-            .WhereIf(input.Description != null, x => x.Description == input.Description)
+            .WhereIf(input.Description != null, x => x.Description.Contains(input.Description))
             .WhereIf(input.NickName != null, x => x.NickName == input.NickName)
             .WhereIf(input.ArtCount != null, x => x.ArtCount == input.ArtCount)
             ;

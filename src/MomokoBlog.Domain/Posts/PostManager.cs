@@ -69,7 +69,7 @@ namespace MomokoBlog.Posts
             post.Sort=sort;
             post.IsTop=isTop;
             post.PostsStatus=postsStatus;
-
+            post.UpdateContextValue(contextValue);
             await SetPostTagsAsync(post, tagNames);
 
             return await _postRepository.UpdateAsync(post);

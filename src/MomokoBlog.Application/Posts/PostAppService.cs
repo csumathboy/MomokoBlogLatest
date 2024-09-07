@@ -49,16 +49,15 @@ public class PostAppService : CrudAppService<Post, PostDto, Guid, PostGetListInp
             .WhereIf(!input.Author.IsNullOrWhiteSpace(), x => x.Author.Contains(input.Author))
             .WhereIf(input.Description != null, x => x.Description == input.Description)
             .WhereIf(input.ClassId != null, x => x.ClassId == input.ClassId)
-            .WhereIf(!input.ContextValue.IsNullOrWhiteSpace(), x => x.ContextValue.Contains(input.ContextValue))
             .WhereIf(input.Picture != null, x => x.Picture == input.Picture)
             .WhereIf(input.Sort != null, x => x.Sort == input.Sort)
             .WhereIf(input.IsTop != null, x => x.IsTop == input.IsTop)
             .WhereIf(input.PostsStatus != null, x => x.PostsStatus == input.PostsStatus);
     }
 
-    public async Task<PagedResultDto<PostDto>> GetListByConditionAsync(GetPostListDto input)
+    public async Task<PagedResultDto<PostDto>> GetListByConditionAsync(PostGetListInput input)
     {
-        var posts = await _postRepository.GetListAsync(input.Sorting ?? nameof(Post.Sort), input.SkipCount, input.MaxResultCount);
+        var posts = await _postRepository.GetListAsync( input.Sorting ?? nameof(Post.Sort), input.SkipCount, input.MaxResultCount,input.Title,input.Description,input.PostsStatus);
         var totalCount = await _postRepository.CountAsync();
 
         return new PagedResultDto<PostDto>(totalCount, ObjectMapper.Map<List<PostWithDetails>, List<PostDto>>(posts));

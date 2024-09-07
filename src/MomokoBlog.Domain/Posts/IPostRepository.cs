@@ -12,6 +12,9 @@ public interface IPostRepository : IRepository<Post, Guid>
       string sorting,
       int skipCount,
       int maxResultCount,
+      string title,
+      string description,
+      PostStatus? postStatus,
       CancellationToken cancellationToken = default
   );
 

@@ -29,7 +29,5 @@ public class ClassificationFilterInput
     [Display(Name = "ClassificationNickName")]
     public string? NickName { get; set; }
 
-    [FormControlSize(AbpFormControlSize.Small)]
-    [Display(Name = "ClassificationArtCount")]
-    public int? ArtCount { get; set; }
+   
 }

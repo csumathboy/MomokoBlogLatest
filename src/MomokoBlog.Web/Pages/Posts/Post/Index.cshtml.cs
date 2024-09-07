@@ -23,33 +23,8 @@ public class PostFilterInput
     public string? Title { get; set; }
 
     [FormControlSize(AbpFormControlSize.Small)]
-    [Display(Name = "PostAuthor")]
-    public string? Author { get; set; }
-
-    [FormControlSize(AbpFormControlSize.Small)]
     [Display(Name = "PostDescription")]
     public string? Description { get; set; }
-
-    [FormControlSize(AbpFormControlSize.Small)]
-    [Display(Name = "PostClassId")]
-    public Guid? ClassId { get; set; }
-
-    [FormControlSize(AbpFormControlSize.Small)]
-    [Display(Name = "PostContextValue")]
-    public string? ContextValue { get; set; }
-
-    [FormControlSize(AbpFormControlSize.Small)]
-    [Display(Name = "PostPicture")]
-    public string? Picture { get; set; }
-
-    [FormControlSize(AbpFormControlSize.Small)]
-    [Display(Name = "PostSort")]
-    public int? Sort { get; set; }
-
-    [FormControlSize(AbpFormControlSize.Small)]
-    [Display(Name = "PostIsTop")]
-    public bool? IsTop { get; set; }
-
  
     [FormControlSize(AbpFormControlSize.Small)]
     [Display(Name = "PostPostsStatus")]

@@ -27,11 +27,25 @@ public class PostRepository : EfCoreRepository<MomokoBlogDbContext, Post, Guid>,
           string sorting,
           int skipCount,
           int maxResultCount,
+          string title,
+          string description,
+          PostStatus? postStatus,
           CancellationToken cancellationToken = default
       )
     {
         var query = await ApplyFilterAsync();
-
+        if (!string.IsNullOrEmpty(title))
+        {
+            query = query.Where(x => x.Title.Contains(title));
+        }
+        if (!string.IsNullOrEmpty(description))
+        {
+            query = query.Where(x => x.Description.Contains(description));
+        }
+        if (postStatus != null && postStatus > 0)
+        {
+            query = query.Where(x => x.PostsStatus.Equals(postStatus));
+        }
         return await query
             .OrderBy(x => x.Sort)
             .PageBy(skipCount, maxResultCount)

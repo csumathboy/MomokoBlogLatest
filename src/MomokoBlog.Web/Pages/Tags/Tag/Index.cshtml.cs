@@ -25,7 +25,5 @@ public class TagFilterInput
     [Display(Name = "TagNickName")]
     public string? NickName { get; set; }
 
-    [FormControlSize(AbpFormControlSize.Small)]
-    [Display(Name = "TagArtCount")]
-    public int? ArtCount { get; set; }
+ 
 }
