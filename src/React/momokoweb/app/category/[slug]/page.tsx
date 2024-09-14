@@ -1,13 +1,13 @@
 import Image from 'next/image'
 import Link from 'next/link';
-
-export default function Home() {
-  return (
-<main id="main" className="site-main clearfix">
+export default function Category({ params }: { params: { slug: string } }) {
+    return (
+        <main id="main" className="site-main clearfix">
 		<div className="container">
 			<div id="primary" className="content-area clearfix" role="main">
+            <header className="page-header clearfix"><h1 className="page-title">分类：头状花序{params.slug}</h1></header>
 			<div className="post-container">
-      <article id="post-674" className="grid-item post-674 post type-post status-publish format-standard has-post-thumbnail hentry category-chrysanthemum tag-4">
+          <article id="post-674" className="grid-item post-674 post type-post status-publish format-standard has-post-thumbnail hentry category-chrysanthemum tag-4">
             <div className="post-media clearfix">
              <Link href="/post/3"  className="thumb-link">
               <Image width="470" height="353" src="https://momoko.chouxiangpai.com/wp-content/uploads/2020/07/270鸳鸯荷2-470x353.jpg" className="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt=""   sizes="(max-width: 470px) 100vw, 470px" /></Link></div> 
@@ -25,23 +25,7 @@ export default function Home() {
             </footer> 
             
           </article>
-          <article id="post-665" className="grid-item post-665 post type-post status-publish format-standard has-post-thumbnail hentry category-chrysanthemum tag-5">
-            <div className="post-media clearfix">
-            <Link href="/post/4" className="thumb-link">
-              <Image width="470" height="353" src="https://momoko.chouxiangpai.com/wp-content/uploads/2020/07/263洹水金桂-1-470x353.jpg" className="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt=""   sizes="(max-width: 470px) 100vw, 470px" /></Link></div>
-            <header className="entry-header clearfix">
-              <h3 className="entry-title">
-              <Link href="/post/4"  rel="bookmark">洹水金桂</Link></h3>
-            </header>
-            
-            <div className="entry-summary clearfix">
-              <p>花型：平桂型 瓣型：桂瓣</p>
-            </div>
-            
-            <footer className="entry-footer clearfix">
-              <div className="date-meta">4年 ago</div>
-            </footer>
-          </article>
+          
           <article id="post-671" className="grid-item post-671 post type-post status-publish format-standard has-post-thumbnail hentry category-chrysanthemum tag-8">
             <div className="post-media clearfix"><Link href="/post/1" className="thumb-link">
               <Image width="470" height="353" src="https://momoko.chouxiangpai.com/wp-content/uploads/2020/07/266苍龙爪-2-470x353.jpg" className="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt=""  sizes="(max-width: 470px) 100vw, 470px" /></Link></div>
@@ -57,23 +41,6 @@ export default function Home() {
               <div className="date-meta">4年 ago</div>
             </footer>
             
-          </article>
-          <article id="post-665" className="grid-item post-665 post type-post status-publish format-standard has-post-thumbnail hentry category-chrysanthemum tag-5">
-            <div className="post-media clearfix">
-            <Link href="/post/4" className="thumb-link">
-              <Image width="470" height="353" src="https://momoko.chouxiangpai.com/wp-content/uploads/2020/07/263洹水金桂-1-470x353.jpg" className="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt=""   sizes="(max-width: 470px) 100vw, 470px" /></Link></div>
-            <header className="entry-header clearfix">
-              <h3 className="entry-title">
-              <Link href="/post/4"  rel="bookmark">洹水金桂</Link></h3>
-            </header>
-            
-            <div className="entry-summary clearfix">
-              <p>花型：平桂型 瓣型：桂瓣</p>
-            </div>
-            
-            <footer className="entry-footer clearfix">
-              <div className="date-meta">4年 ago</div>
-            </footer>
           </article>
           <article id="post-668" className="grid-item post-668 post type-post status-publish format-standard has-post-thumbnail hentry category-chrysanthemum">
             <div className="post-media clearfix">
@@ -92,7 +59,40 @@ export default function Home() {
             </footer>
             
           </article>
-          
+          <article id="post-668" className="grid-item post-668 post type-post status-publish format-standard has-post-thumbnail hentry category-chrysanthemum">
+            <div className="post-media clearfix">
+            <Link href="/post/2" className="thumb-link">
+              <Image width="470" height="353" src="https://momoko.chouxiangpai.com/wp-content/uploads/2020/07/264金背大红-2-470x353.jpg" className="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt=""  sizes="(max-width: 470px) 100vw, 470px" /></Link></div>
+            <header className="entry-header clearfix">
+              <h3 className="entry-title">
+              <Link href="/post/2"  rel="bookmark">金背大红</Link></h3>
+            </header>
+            
+            <div className="entry-summary clearfix">
+                </div>
+            
+            <footer className="entry-footer clearfix">
+              <div className="date-meta">4年 ago</div>
+            </footer>
+            
+          </article>
+          <article id="post-668" className="grid-item post-668 post type-post status-publish format-standard has-post-thumbnail hentry category-chrysanthemum">
+            <div className="post-media clearfix">
+            <Link href="/post/2" className="thumb-link">
+              <Image width="470" height="353" src="https://momoko.chouxiangpai.com/wp-content/uploads/2020/07/264金背大红-2-470x353.jpg" className="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt=""  sizes="(max-width: 470px) 100vw, 470px" /></Link></div>
+            <header className="entry-header clearfix">
+              <h3 className="entry-title">
+              <Link href="/post/2"  rel="bookmark">金背大红</Link></h3>
+            </header>
+            
+            <div className="entry-summary clearfix">
+                </div>
+            
+            <footer className="entry-footer clearfix">
+              <div className="date-meta">4年 ago</div>
+            </footer>
+            
+          </article>
           <article id="post-665" className="grid-item post-665 post type-post status-publish format-standard has-post-thumbnail hentry category-chrysanthemum tag-5">
             <div className="post-media clearfix">
             <Link href="/post/4" className="thumb-link">
@@ -170,5 +170,5 @@ export default function Home() {
 				</div>
 	</div>
 </main>
-  );
+    );
 }

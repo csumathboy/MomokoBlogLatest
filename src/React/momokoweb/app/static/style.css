@@ -1222,13 +1222,15 @@ h6 {
 .search-results.infinite-scroll .grid-item {
 	width: 100%;
 }
-.layout-three-columns .grid-item {
+.layout-three-columns{
     width: 33.33333%;
 }
 .grid-item {
     margin: 0;
     padding-bottom: 26px;
-    width: 50%;
+    width: 33.33333%;
+    height: 310px;
+    float: left;
     border: 0;
 }
 .grid-item .date-meta {
