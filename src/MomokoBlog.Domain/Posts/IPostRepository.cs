@@ -14,6 +14,7 @@ public interface IPostRepository : IRepository<Post, Guid>
       int maxResultCount,
       string title,
       string description,
+      Guid classId,
       PostStatus? postStatus,
       CancellationToken cancellationToken = default
   );

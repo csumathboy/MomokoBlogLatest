@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using MomokoBlog.Classifications;
 using MomokoBlog.Classifications.Dtos;
 using MomokoBlog.Permissions;
@@ -15,7 +16,7 @@ using static MomokoBlog.Permissions.MomokoBlogPermissions;
 
 namespace MomokoBlog.Posts;
 
-
+[Authorize]
 public class PostAppService : CrudAppService<Post, PostDto, Guid, PostGetListInput, CreatePostDto, UpdatePostDto>,
     IPostAppService
 {
@@ -55,6 +56,7 @@ public class PostAppService : CrudAppService<Post, PostDto, Guid, PostGetListInp
             .WhereIf(input.PostsStatus != null, x => x.PostsStatus == input.PostsStatus);
     }
 
+    [AllowAnonymous]
     public async Task<PagedResultDto<PostDto>> GetListByConditionAsync(PostGetListInput input)
     {
         var posts = await _postRepository.GetListAsync( input.Sorting ?? nameof(Post.Sort), input.SkipCount, input.MaxResultCount,input.Title,input.Description,input.PostsStatus);
@@ -62,19 +64,21 @@ public class PostAppService : CrudAppService<Post, PostDto, Guid, PostGetListInp
 
         return new PagedResultDto<PostDto>(totalCount, ObjectMapper.Map<List<PostWithDetails>, List<PostDto>>(posts));
     }
-
+    [AllowAnonymous]
     public override async Task<PostDto> GetAsync(Guid id)
     {
         var post = await _postRepository.GetAsync(id);
 
         return ObjectMapper.Map<PostWithDetails, PostDto>(post);
     }
+    [AllowAnonymous]
     public  async Task<PostDetailsDto> GetPostWithDetails(Guid id)
     {
         var post = await _postRepository.GetAsync(id);
 
         return ObjectMapper.Map<PostWithDetails, PostDetailsDto>(post);
     }
+ 
     public override async Task<PostDto> CreateAsync(CreatePostDto input)
     {
         var result= await _postManager.CreateAsync(
@@ -91,7 +95,7 @@ public class PostAppService : CrudAppService<Post, PostDto, Guid, PostGetListInp
         );
         return ObjectMapper.Map<Post, PostDto>(result);
     }
-
+  
     public override async Task<PostDto> UpdateAsync(Guid id, UpdatePostDto input)
     {
         var post = await _postRepository.GetAsync(id, includeDetails: true);
@@ -111,12 +115,12 @@ public class PostAppService : CrudAppService<Post, PostDto, Guid, PostGetListInp
         );
         return ObjectMapper.Map<Post, PostDto>(result);
     }
-
+ 
     public override async Task DeleteAsync(Guid id)
     {
         await _postRepository.DeleteAsync(id);
     }
-
+    [AllowAnonymous]
     public async Task<ListResultDto<ClassificationDto>> GetClassificationAsync()
     {
         var classifications = await _classificationRepository.GetListAsync();
@@ -125,7 +129,7 @@ public class PostAppService : CrudAppService<Post, PostDto, Guid, PostGetListInp
             ObjectMapper.Map<List<Classifications.Classification>, List<ClassificationDto>>(classifications)
         );
     }
-
+    [AllowAnonymous]
     public async Task<ListResultDto<TagDto>> GetTagAsync()
     {
         var categories = await _categoryRepository.GetListAsync();

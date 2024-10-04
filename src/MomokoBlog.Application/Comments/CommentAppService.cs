@@ -4,10 +4,12 @@ using System.Threading.Tasks;
 using MomokoBlog.Permissions;
 using MomokoBlog.Comments.Dtos;
 using Volo.Abp.Application.Services;
+using Microsoft.AspNetCore.Authorization;
+using Volo.Abp.Application.Dtos;
 
 namespace MomokoBlog.Comments;
 
-
+[Authorize]
 public class CommentAppService : CrudAppService<Comment, CommentDto, Guid, CommentGetListInput, CreateCommentDto, UpdateCommentDto>,
     ICommentAppService
 {
@@ -36,4 +38,15 @@ public class CommentAppService : CrudAppService<Comment, CommentDto, Guid, Comme
             .WhereIf(!input.PhoneNumber.IsNullOrWhiteSpace(), x => x.PhoneNumber.Contains(input.PhoneNumber))
             ;
     }
+    [AllowAnonymous]
+    public override async Task<PagedResultDto<CommentDto>> GetListAsync(CommentGetListInput input)
+    {
+        return await base.GetListAsync(input);
+    }
+    [AllowAnonymous]
+    public override async Task<CommentDto> GetAsync(Guid id)
+    {
+        return await base.GetAsync(id);
+    }
+    
 }

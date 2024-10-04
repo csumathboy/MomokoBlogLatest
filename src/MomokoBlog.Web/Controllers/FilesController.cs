@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MomokoBlog.Web.Controllers
 {
+    [Authorize]
     [AutoValidateAntiforgeryToken]
     public class FilesController : Controller
     {
@@ -19,7 +20,7 @@ namespace MomokoBlog.Web.Controllers
         {
             _fileAppService = fileAppService;
         }
-
+  
         public IActionResult Index()
         {
             return NoContent();
@@ -43,8 +44,6 @@ namespace MomokoBlog.Web.Controllers
 
             //save file to Blob
 
-
-            var filePath = "/uploadfiles/" + fileName;
             var rtnFilePath= "/uploadfiles/host/blob-file-container/" + fileName;
             using (var memoryStream = new MemoryStream())
             {

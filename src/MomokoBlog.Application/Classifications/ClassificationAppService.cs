@@ -4,10 +4,12 @@ using System.Threading.Tasks;
 using MomokoBlog.Permissions;
 using MomokoBlog.Classifications.Dtos;
 using Volo.Abp.Application.Services;
+using Microsoft.AspNetCore.Authorization;
+using Volo.Abp.Application.Dtos;
 
 namespace MomokoBlog.Classifications;
 
-
+[Authorize]
 public class ClassificationAppService : CrudAppService<Classification, ClassificationDto, Guid, ClassificationGetListInput, CreateUpdateClassificationDto, CreateUpdateClassificationDto>,
     IClassificationAppService
 {
@@ -33,5 +35,15 @@ public class ClassificationAppService : CrudAppService<Classification, Classific
             .WhereIf(input.NickName != null, x => x.NickName == input.NickName)
             .WhereIf(input.ArtCount != null, x => x.ArtCount == input.ArtCount)
             ;
+    }
+    [AllowAnonymous]
+    public override async Task<PagedResultDto<ClassificationDto>> GetListAsync(ClassificationGetListInput input)
+    {
+        return await base.GetListAsync(input);
+    }
+    [AllowAnonymous]
+    public override async Task<ClassificationDto> GetAsync(Guid id)
+    {
+        return await base.GetAsync(id);
     }
 }

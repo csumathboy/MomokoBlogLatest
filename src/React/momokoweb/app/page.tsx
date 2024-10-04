@@ -1,11 +1,22 @@
 import Image from 'next/image'
 import Link from 'next/link';
 
-export default function Home() {
+async function getData() {
+  const res = await fetch('https://apimk.chouxiangpai.com:8443/api/app/post/16920db9-41e8-5831-f3e2-3a142f0ccaf8')
+  if (!res.ok) {
+    // 由最近的 error.js 处理
+    throw new Error('Failed to fetch data')
+  }
+  return res.json()
+}
+
+export  default async  function Home() {
+  const data = await getData();
   return (
 <main id="main" className="site-main clearfix">
 		<div className="container">
 			<div id="primary" className="content-area clearfix" role="main">
+        <div className="hidden"> </div>
 			<div className="post-container">
       <article id="post-674" className="grid-item post-674 post type-post status-publish format-standard has-post-thumbnail hentry category-chrysanthemum tag-4">
             <div className="post-media clearfix">

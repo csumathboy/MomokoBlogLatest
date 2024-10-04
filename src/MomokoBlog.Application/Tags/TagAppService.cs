@@ -1,13 +1,15 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using MomokoBlog.Permissions;
 using MomokoBlog.Tags.Dtos;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
 namespace MomokoBlog.Tags;
 
-
+[Authorize]
 public class TagAppService : CrudAppService<Tag, TagDto, Guid, TagGetListInput, CreateTagDto, UpdateTagDto>,
     ITagAppService
 {
@@ -32,5 +34,15 @@ public class TagAppService : CrudAppService<Tag, TagDto, Guid, TagGetListInput, 
             .WhereIf(input.NickName != null, x => x.NickName == input.NickName)
             .WhereIf(input.ArtCount != null, x => x.ArtCount == input.ArtCount)
             ;
+    }
+    [AllowAnonymous]
+    public override async Task<PagedResultDto<TagDto>> GetListAsync(TagGetListInput input)
+    {
+        return await base.GetListAsync(input);
+    }
+    [AllowAnonymous]
+    public override async Task<TagDto> GetAsync(Guid id)
+    {
+        return await base.GetAsync(id);
     }
 }
