@@ -14,6 +14,8 @@ public class PostDto : FullAuditedEntityDto<Guid>
 
     public string? ClassName { get; set; }
 
+    public Guid? ClassId { get; set; }
+
     public string? Picture { get; set; }
 
     public int Sort { get; set; }

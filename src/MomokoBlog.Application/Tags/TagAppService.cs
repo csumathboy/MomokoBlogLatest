@@ -13,8 +13,6 @@ namespace MomokoBlog.Tags;
 public class TagAppService : CrudAppService<Tag, TagDto, Guid, TagGetListInput, CreateTagDto, UpdateTagDto>,
     ITagAppService
 {
-    protected override string GetPolicyName { get; set; } = MomokoBlogPermissions.Tag.Default;
-    protected override string GetListPolicyName { get; set; } = MomokoBlogPermissions.Tag.Default;
     protected override string CreatePolicyName { get; set; } = MomokoBlogPermissions.Tag.Create;
     protected override string UpdatePolicyName { get; set; } = MomokoBlogPermissions.Tag.Update;
     protected override string DeletePolicyName { get; set; } = MomokoBlogPermissions.Tag.Delete;
@@ -44,5 +42,15 @@ public class TagAppService : CrudAppService<Tag, TagDto, Guid, TagGetListInput, 
     public override async Task<TagDto> GetAsync(Guid id)
     {
         return await base.GetAsync(id);
+    }
+
+    public override async Task<TagDto> CreateAsync(CreateTagDto input)
+    {
+        var existTag = await _repository.GetByTagNameAsync(input.Name);
+        if (existTag != null)
+        {
+            return new TagDto();
+        }
+        return await base.CreateAsync(input);
     }
 }

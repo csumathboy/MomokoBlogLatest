@@ -25,4 +25,5 @@ public interface IPostAppService :
     Task<ListResultDto<ClassificationDto>> GetClassificationAsync();
     Task<ListResultDto<TagDto>> GetTagAsync();
     Task<PostDetailsDto> GetPostWithDetails(Guid id);
+    Task<PagedResultDto<PostDto>> GetListByTagAsync(string tagName, string? Sorting, int SkipCount = 0, int MaxResultCount = 12, PostStatus postStatus = PostStatus.Pulish);
 }

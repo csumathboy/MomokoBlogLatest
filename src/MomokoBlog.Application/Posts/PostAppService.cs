@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -29,17 +30,17 @@ public class PostAppService : CrudAppService<Post, PostDto, Guid, PostGetListInp
     private readonly IPostRepository _postRepository;
     private readonly PostManager _postManager;
     private readonly IClassificationRepository _classificationRepository;
-    private readonly ITagRepository _categoryRepository;
+    private readonly ITagRepository _tagRepository;
 
     public PostAppService(IPostRepository repository,
         PostManager postManager,
         IClassificationRepository classificationRepository,
-        ITagRepository categoryRepository) : base(repository)
+        ITagRepository tagRepository) : base(repository)
     {
         _postRepository = repository;
         _postManager = postManager;
         _classificationRepository = classificationRepository;
-        _categoryRepository = categoryRepository;
+        _tagRepository = tagRepository;
     }
 
     protected override async Task<IQueryable<Post>> CreateFilteredQueryAsync(PostGetListInput input)
@@ -59,10 +60,24 @@ public class PostAppService : CrudAppService<Post, PostDto, Guid, PostGetListInp
     [AllowAnonymous]
     public async Task<PagedResultDto<PostDto>> GetListByConditionAsync(PostGetListInput input)
     {
-        var posts = await _postRepository.GetListAsync( input.Sorting ?? nameof(Post.Sort), input.SkipCount, input.MaxResultCount,input.Title,input.Description,input.PostsStatus);
-        var totalCount = await _postRepository.CountAsync();
+        var posts = await _postRepository.GetListAsync(input.Sorting ?? nameof(Post.Sort), input.SkipCount, input.MaxResultCount,input.Title,input.Description,input.ClassId,input.PostsStatus);
+        var totalCount = await _postRepository.GetCountByConditionAsync(input.Title, input.Description, input.ClassId, input.PostsStatus);
 
         return new PagedResultDto<PostDto>(totalCount, ObjectMapper.Map<List<PostWithDetails>, List<PostDto>>(posts));
+    }
+    [AllowAnonymous]
+    public async Task<PagedResultDto<PostDto>> GetListByTagAsync(string tagName, string? Sorting, int SkipCount=0, int MaxResultCount=12, PostStatus postStatus=PostStatus.Pulish)
+    {
+        if (!string.IsNullOrEmpty(tagName))
+        {
+            var tagModel = await _tagRepository.GetByTagNameAsync(tagName);
+            var posts = await _postRepository.GetListByTagAsync(Sorting ?? nameof(Post.Sort), SkipCount, MaxResultCount, tagModel.Id, postStatus);
+            var totalCount = await _postRepository.GetCountByTagAsync(tagModel.Id, postStatus);
+
+            return new PagedResultDto<PostDto>(totalCount, ObjectMapper.Map<List<PostWithDetails>, List<PostDto>>(posts));
+
+        }
+        return new PagedResultDto<PostDto>();
     }
     [AllowAnonymous]
     public override async Task<PostDto> GetAsync(Guid id)
@@ -132,7 +147,7 @@ public class PostAppService : CrudAppService<Post, PostDto, Guid, PostGetListInp
     [AllowAnonymous]
     public async Task<ListResultDto<TagDto>> GetTagAsync()
     {
-        var categories = await _categoryRepository.GetListAsync();
+        var categories = await _tagRepository.GetListAsync();
 
         return new ListResultDto<TagDto>(
             ObjectMapper.Map<List<Tags.Tag>, List<TagDto>>(categories)

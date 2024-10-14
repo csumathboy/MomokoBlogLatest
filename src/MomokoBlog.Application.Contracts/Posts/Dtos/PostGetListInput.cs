@@ -15,6 +15,8 @@ public class PostGetListInput : PagedAndSortedResultRequestDto
 
     public Guid? ClassId { get; set; }
 
+    public string? TagName { get; set; }
+
     public string? ContextValue { get; set; }
 
     public string? Picture { get; set; }

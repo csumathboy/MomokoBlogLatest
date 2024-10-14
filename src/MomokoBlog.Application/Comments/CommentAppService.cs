@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
 
 namespace MomokoBlog.Comments;
-
 [Authorize]
 public class CommentAppService : CrudAppService<Comment, CommentDto, Guid, CommentGetListInput, CreateCommentDto, UpdateCommentDto>,
     ICommentAppService

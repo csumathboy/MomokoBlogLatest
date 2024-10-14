@@ -14,9 +14,29 @@ public interface IPostRepository : IRepository<Post, Guid>
       int maxResultCount,
       string title,
       string description,
-      Guid classId,
+      Guid? classId,
       PostStatus? postStatus,
       CancellationToken cancellationToken = default
+    );
+    Task<int> GetCountByConditionAsync(
+        string title,
+        string description,
+        Guid? classId,
+         PostStatus? postStatus,
+         CancellationToken cancellationToken = default
+    );
+    Task<List<PostWithDetails>> GetListByTagAsync(
+          string sorting,
+          int skipCount,
+          int maxResultCount,
+          Guid? tagId,
+          PostStatus? postStatus,
+          CancellationToken cancellationToken = default
+      );
+    Task<int> GetCountByTagAsync(
+       Guid? tagId,
+       PostStatus? postStatus,
+       CancellationToken cancellationToken = default
   );
 
     Task<PostWithDetails> GetAsync(Guid id, CancellationToken cancellationToken = default);

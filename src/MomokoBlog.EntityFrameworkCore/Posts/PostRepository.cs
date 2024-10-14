@@ -43,7 +43,7 @@ public class PostRepository : EfCoreRepository<MomokoBlogDbContext, Post, Guid>,
           int maxResultCount,
           string title,
           string description,
-          Guid classId,
+          Guid? classId,
           PostStatus? postStatus,
           CancellationToken cancellationToken = default
       )
@@ -52,8 +52,36 @@ public class PostRepository : EfCoreRepository<MomokoBlogDbContext, Post, Guid>,
         return query.ToList();
 
     }
+    public async Task<int> GetCountByConditionAsync(
+        string title,
+        string description,
+        Guid? classId,
+        PostStatus? postStatus,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var dbset = await GetDbSetAsync();
+        var query = dbset.AsQueryable();
+        if (classId != null && !string.IsNullOrEmpty(classId.ToString()))
+        {
+            query = query.Where(x => x.ClassId.Equals(classId));
+        }
+        if (!string.IsNullOrEmpty(title))
+        {
+            query = query.Where(x => x.Title.Contains(title));
+        }
+        if (!string.IsNullOrEmpty(description))
+        {
+            query = query.Where(x => x.Description.Contains(description));
+        }
+        if (postStatus != null && postStatus > 0)
+        {
+            query = query.Where(x => x.PostsStatus.Equals(postStatus));
+        }
+        return query.Count();
 
-    public async Task<List<PostWithDetails>> GetListByTagIdAsync(
+    }
+    public async Task<List<PostWithDetails>> GetListByTagAsync(
          string sorting,
          int skipCount,
          int maxResultCount,
@@ -75,7 +103,8 @@ public class PostRepository : EfCoreRepository<MomokoBlogDbContext, Post, Guid>,
         {
             query = query.Where(x => x.post.PostsStatus.Equals(postStatus));
         }
-
+        query = query.OrderBy(x => x.post.Sort)
+         .PageBy(skipCount, maxResultCount);
         return query.Select(x => new PostWithDetails
         {
             Id = x.post.Id,
@@ -88,13 +117,34 @@ public class PostRepository : EfCoreRepository<MomokoBlogDbContext, Post, Guid>,
             PostsStatus = x.post.PostsStatus,
             Sort = x.post.Sort,
             CreationTime = x.post.CreationTime,
-            //ClassName = ,
+            ClassId = x.post.ClassId,
             PostTagNames = (from postTags in x.post.PostTags
                             join tag in dbContext.Set<Tag>() on postTags.TagId equals tag.Id
                             select tag.Name).ToArray()
-        }).ToList();
+        }).ToList().DistinctBy(x=>x.Id).ToList();
 
 
+    }
+    public async Task<int> GetCountByTagAsync(
+       Guid? tagId,
+       PostStatus? postStatus,
+       CancellationToken cancellationToken = default
+  )
+    {
+        var dbContext = await GetDbContextAsync();
+        var query = (await GetDbSetAsync())
+            .Include(x => x.PostTags)
+            .Join(dbContext.Set<PostTag>(), post => post.Id, tag => tag.PostId,
+                (post, tag) => new { post, tag });
+        if (tagId != null && !string.IsNullOrEmpty(tagId.ToString()))
+        {
+            query = query.Where(x => x.tag.TagId.Equals(tagId));
+        }
+        if (postStatus != null && postStatus > 0)
+        {
+            query = query.Where(x => x.post.PostsStatus.Equals(postStatus));
+        }
+        return query.Count();
     }
     /// <summary>
     /// Query by id
@@ -123,7 +173,7 @@ public class PostRepository : EfCoreRepository<MomokoBlogDbContext, Post, Guid>,
           PostStatus? postStatus = null,
           string sorting = "",
           int skipCount = 0,
-          int maxResultCount = 0,
+          int maxResultCount = 10,
           string title = "",
           string description = "")
     {
@@ -152,8 +202,22 @@ public class PostRepository : EfCoreRepository<MomokoBlogDbContext, Post, Guid>,
         {
             query = query.Where(x => x.post.PostsStatus.Equals(postStatus));
         }
-        query = query.OrderBy(x => x.post.Sort)
-         .PageBy(skipCount, maxResultCount);
+        switch (sorting)
+        {
+            case "Sort":
+                query = query.OrderByDescending(x => x.post.Sort);
+                break;
+            case "Title":
+                query = query.OrderBy(x => x.post.Title);
+                break;
+            case "CreationTime":
+                query = query.OrderByDescending(x => x.post.CreationTime);
+                break;
+            default:
+                break;
+        }
+       
+        query = query.PageBy(skipCount, maxResultCount);
         return query.Select(x => new PostWithDetails
         {
             Id = x.post.Id,
@@ -167,6 +231,7 @@ public class PostRepository : EfCoreRepository<MomokoBlogDbContext, Post, Guid>,
             Sort = x.post.Sort,
             CreationTime = x.post.CreationTime,
             ClassName = x.classification.Name,
+            ClassId=x.post.ClassId,
             PostTagNames = (from postTags in x.post.PostTags
                             join tag in dbContext.Set<Tag>() on postTags.TagId equals tag.Id
                             select tag.Name).ToArray()

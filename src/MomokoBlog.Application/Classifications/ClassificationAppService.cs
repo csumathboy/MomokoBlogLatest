@@ -13,8 +13,6 @@ namespace MomokoBlog.Classifications;
 public class ClassificationAppService : CrudAppService<Classification, ClassificationDto, Guid, ClassificationGetListInput, CreateUpdateClassificationDto, CreateUpdateClassificationDto>,
     IClassificationAppService
 {
-    protected override string GetPolicyName { get; set; } = MomokoBlogPermissions.Classification.Default;
-    protected override string GetListPolicyName { get; set; } = MomokoBlogPermissions.Classification.Default;
     protected override string CreatePolicyName { get; set; } = MomokoBlogPermissions.Classification.Create;
     protected override string UpdatePolicyName { get; set; } = MomokoBlogPermissions.Classification.Update;
     protected override string DeletePolicyName { get; set; } = MomokoBlogPermissions.Classification.Delete;
@@ -41,6 +39,7 @@ public class ClassificationAppService : CrudAppService<Classification, Classific
     {
         return await base.GetListAsync(input);
     }
+ 
     [AllowAnonymous]
     public override async Task<ClassificationDto> GetAsync(Guid id)
     {

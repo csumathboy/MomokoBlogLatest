@@ -17,6 +17,8 @@ namespace MomokoBlog.Posts
 
         public string ClassName { get; set; } = default!;
 
+        public Guid? ClassId { get; set; }
+
         public string ContextValue { get; set; } = default!;
 
         public string? Picture { get; set; }
