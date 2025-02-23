@@ -28,7 +28,8 @@ jobs:
 
       - name: dotnet publish
         run: dotnet publish src/MomokoBlog.Web  -f net8.0 -c Release -o ${{env.DOTNET_ROOT}}/myapp
-
+      - name:  Generate openiddict.pfx
+        run: dotnet dev-certs https -v -ep ${{env.DOTNET_ROOT}}/myapp/openiddict.pfx -p 4940d584-d941-4cea-8b39-62e1de2d26a1
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
