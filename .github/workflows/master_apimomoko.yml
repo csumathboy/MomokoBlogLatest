@@ -21,13 +21,13 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0'
+          dotnet-version: '8.x'
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish src/MomokoBlog.Web  -f net8.0 -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -54,9 +54,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C0C4000187574DCCA9282FEF1DDB6998 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_E5E62DB741184CAE967603F70FD806E9 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_3D51877DA33C4CB28858CF34B4FA2778 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_6C898D01BBC34200934ECE70AEB1C9EF }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_4B2672D942CB4C53832E511C15CA5D20 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_BE775F5702CE479EADC32390FE267BB4 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
